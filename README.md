@@ -5,7 +5,7 @@ Hyperparameters are all hardcoded, there are no bias nodes, and I haven't
 even tested this on any real data.
 
 I am still pleasantly surprised at how short the implementation ended
-up being -- about 30 lines of code. TODO update this
+up being.
 
 # Future work
 Real ML libraries apparently use Automatic Differentiation (AD)
