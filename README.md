@@ -5,13 +5,15 @@ Hyperparameters are all hardcoded, there are no bias nodes, and I haven't
 even tested this on any real data.
 
 I am still pleasantly surprised at how short the implementation ended
-up being.
+up being. Only 17 lines excluding comments, blank lines and testing.
 
 # Future work
 Real ML libraries apparently use Automatic Differentiation (AD)
 nowadays. I've been looking into http://conal.net/papers/essence-of-ad/
 as a potential implementation approach, which involves compiling functions
 to an efficiently differentiable form. For BQN this might mean a codegen step.
+
+And ideally we'd want BQN running on a GPU for this.
 
 # References
 
