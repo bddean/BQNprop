@@ -3,13 +3,10 @@ learning_rate ← 0.5
 MxV ← +˝∘×⎉1‿∞ # Matrix × Vector multiplication via BQNCrate
 Sigmoid ← {÷1+⋆-𝕩}
 random ← •MakeRand 18210
-InitWeight ← { 𝕤⋄ ¯1 + 0.01 × random.Range 200 }
 
-# 𝕩 is a list of layer sizes; output is a list of weights
-Create ⇐ {
-	sh←¯1↓(⊢ ≍˘ «) 𝕩
-	{<>InitWeight˘¨ 𝕩⥊↕0}˘sh
-}
+# Initialize weights for 𝕩, a list containing each layer's size.
+Create ⇐ {CreateLayer¨<˘2↕𝕩}
+CreateLayer ← {¯1 + 0.01 × 𝕩⥊(×´𝕩)random.Range 200}
 
 # Run a trained network; pass input 𝕨 through weights 𝕩.
 Compute ⇐ Sigmoid∘MxV˜´⟜⌽
@@ -28,13 +25,13 @@ BackProp ⇐ {
 	a←(<input) Sigmoid∘MxV` 𝕩
 	# Conveniently, sigmoid's derivative `dzda` can be expressed in terms of
 	# its output `a`.
-	dzda ← ×⟜¬¨ a
+	dzda ← ×⟜¬ a
 	eL←(¯1⊑dzda) × 2 × (¯1⊑a) - target
 	# Now *propagate* error from (o)utput *back* to (i)nput.
 	e ← { eo ← 𝕨 ⋄ wo‿d ← 𝕩
 		d × wo MxV eo
-	}`⌾⌽ ⟨eL⟩ ∾⎉∞˜ <˘ 1↓𝕩≍˘»dzda
-	𝕩 - learning_rate × (¯1↓⟨input⟩∾a) ×⌜¨ e
+	}`⌾⌽ ⟨eL⟩ ∾˜ <˘ 1↓𝕩≍˘»dzda
+	𝕩 - learning_rate × (⟨input⟩»a) ×⌜¨ e
 }
 
 Test ⇐ {⋄⋄⋄ 𝕤 ⋄⋄⋄
@@ -49,3 +46,4 @@ Test ⇐ {⋄⋄⋄ 𝕤 ⋄⋄⋄
 	•Show "		~~ COMPUTE - trained:"
 	•Show i Compute m
 }
+Test @
